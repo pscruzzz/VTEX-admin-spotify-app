@@ -1,0 +1,13 @@
+{
+  "section": "storeSetup",
+  "titleId": "admin-spotify.navigation.group",
+  "subSection": "spotify",
+  "searchKeyWordsHelpers": "admin-spotify.navigation.search.kws",
+  "subSectionItems": [
+    {
+      "labelId": "admin-spotify.navigation.details",
+      "path": "/admin/spotify",
+      "searchKeyWordsHelpers": "admin-spotify.navigation.details.search.kws"
+    }
+  ]
+}

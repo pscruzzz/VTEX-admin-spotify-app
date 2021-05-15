@@ -1,0 +1,5 @@
+query getSpotifyRefreshedToken($refresh_token: String) {
+  getSpotifyRefreshedToken(refresh_token: $refresh_token) @context(provider: "pedrocruz.admin-spotify"){
+    didSucceed
+  }
+}

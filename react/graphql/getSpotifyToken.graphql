@@ -1,0 +1,5 @@
+query getSpotifyToken($redirect_uri: String, $code: String) {
+  getSpotifyToken(redirect_uri: $redirect_uri, code: $code) @context(provider: "pedrocruz.admin-spotify"){
+    didSucceed
+  }
+}

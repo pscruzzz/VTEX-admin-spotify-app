@@ -1,0 +1,8 @@
+type getSpotifyTokenRes{
+  didSucceed: Boolean
+}
+
+type Query {
+  getSpotifyToken(redirect_uri: String, code: String): getSpotifyTokenRes
+  getSpotifyRefreshedToken(refresh_token: String): getSpotifyTokenRes
+}

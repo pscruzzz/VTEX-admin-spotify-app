@@ -1,0 +1,6 @@
+{
+  "admin.app.spotify": {
+    "component": "Main",
+    "path": "/admin/app/spotify"
+  }
+}
