@@ -21,13 +21,13 @@ const App: FC = () => {
   const [getRefreshedToken] = useLazyQuery(getSpotifyRefreshedToken)
 
   useEffect(()=>{
-    const cookieToken = document.cookie.split("; ").filter(elem => elem.search("spotifyToken=")!==-1)[0]?.split("=")[1]
-    const cookieRefreshToken = document.cookie.split("; ").filter(elem => elem.search("spotifyRefreshToken=")!==-1)[0]?.split("=")[1]
+    const cookieIsAuthenticated = document.cookie.split("; ").filter(elem => elem.search("isAuthenticated=")!==-1)[0]?.split("=")[1]
+    const cookieHasRefreshToken = document.cookie.split("; ").filter(elem => elem.search("hasRefreshToken=")!==-1)[0]?.split("=")[1]
 
-    if(cookieToken){
+    if(cookieIsAuthenticated){
       setAuthState(AuthStates.authTokenExists)
-    } else if(cookieRefreshToken){
-      getRefreshedToken({variables: {refresh_token: cookieRefreshToken}})
+    } else if(cookieHasRefreshToken){
+      getRefreshedToken({variables: {cookieHasRefreshToken}})
       setAuthState(AuthStates.refreshTokenExists)
     } else {
       setAuthState(AuthStates.notAuth)

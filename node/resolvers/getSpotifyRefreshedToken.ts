@@ -1,5 +1,5 @@
 interface IGetRefreshedToken {
-  refresh_token: string
+  cookieHasRefreshToken: string
 }
 
 interface IGetRefreshedTokenResponse {
@@ -11,8 +11,9 @@ interface IGetRefreshedTokenResponse {
 }
 
 export async function getSpotifyRefreshedToken(_: any, args: IGetRefreshedToken, ctx: Context) {
+  if(!Boolean(args.cookieHasRefreshToken)){return { didSucceed: false }}
   try {
-    const response: IGetRefreshedTokenResponse = await ctx.clients.spotify.getRefreshedToken(args.refresh_token)
+    const response: IGetRefreshedTokenResponse = await ctx.clients.spotify.getRefreshedToken(args.cookieHasRefreshToken)
 
     const nowToken = new Date()
     const timeToken = nowToken.getTime()

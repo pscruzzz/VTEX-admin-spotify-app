@@ -4,5 +4,5 @@ type getSpotifyTokenRes{
 
 type Query {
   getSpotifyToken(redirect_uri: String, code: String): getSpotifyTokenRes
-  getSpotifyRefreshedToken(refresh_token: String): getSpotifyTokenRes
+  getSpotifyRefreshedToken(cookieHasRefreshToken: String): getSpotifyTokenRes
 }
