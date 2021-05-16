@@ -1,10 +1,12 @@
 import React, { useEffect, useCallback } from 'react'
 import { Layout, PageHeader, PageBlock, Card, Button } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
-import {useLazyQuery} from 'react-apollo'
+import { useLazyQuery } from 'react-apollo'
 import getSpotifyToken from '../graphql/getSpotifyToken.graphql'
+import { useAuth } from '../hooks/authProvider'
 
 const SpotifyAuthPage: React.FC = () => {
+  const { handleNotifyAuthChange } = useAuth()
 
   var win: any = null
   let urlSpotify = "https://accounts.spotify.com/authorize?response_type=code&client_id=d59764def6274222b825ea9687aa0afc&scope=user-read-private%2520user-read-email&redirect_uri=https%3A%2F%2Fspot--pedrocruz.myvtex.com%2Fadmin%2Fspotify"
@@ -37,15 +39,15 @@ const SpotifyAuthPage: React.FC = () => {
         const urlParams = win ? new URLSearchParams(win.location.search) : null
         const codeParam = !!urlParams ? urlParams.get('code') : null
         getToken({
-          variables:{
+          variables: {
             redirect_uri: "https://spot--pedrocruz.myvtex.com/admin/spotify",
             code: codeParam
           }
         })
         win.close()
+        handleNotifyAuthChange()
         break
     }
-
     return
   }, [])
 

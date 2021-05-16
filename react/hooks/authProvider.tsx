@@ -1,21 +1,25 @@
-import React, {createContext, useContext} from 'react'
+import React, {createContext, useContext, useState} from 'react'
 
 interface IContext {
-  handleGetToken: (code: string | null) => boolean,
+  notifyAuthChange: number,
+  handleNotifyAuthChange: ()=> void
 }
 
 const AuthContext = createContext<IContext>({} as IContext)
 
 
 const AuthProvider: React.FC = ({children}) =>{
+  const [notifyAuthChange, setNotifyAuthChange] = useState(1)
 
-  const handleGetToken = (code: string | null) =>{
+  const handleNotifyAuthChange = () =>{
+    const now = new Date()
 
-    return code ? true : false
+    setNotifyAuthChange(now.getTime())
+    return
   }
 
   return(
-    <AuthContext.Provider value={{handleGetToken}}>
+    <AuthContext.Provider value={{notifyAuthChange, handleNotifyAuthChange}}>
       {children}
     </AuthContext.Provider>
   )
