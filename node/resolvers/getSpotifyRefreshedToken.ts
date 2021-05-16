@@ -13,8 +13,8 @@ interface IGetRefreshedTokenResponse {
 export async function getSpotifyRefreshedToken(_: any, args: IGetRefreshedToken, ctx: Context) {
   if(!Boolean(args.cookieHasRefreshToken)){return { didSucceed: false }}
   try {
-    const response: IGetRefreshedTokenResponse = await ctx.clients.spotify.getRefreshedToken(args.cookieHasRefreshToken)
-
+    const refresh_token = ctx.cookies.get("spotifyRefreshToken")
+    const response: IGetRefreshedTokenResponse = await ctx.clients.spotify.getRefreshedToken(refresh_token ?? "")
     const nowToken = new Date()
     const timeToken = nowToken.getTime()
     const expireToken = timeToken + 60 * 60000
@@ -28,8 +28,8 @@ export async function getSpotifyRefreshedToken(_: any, args: IGetRefreshedToken,
     ctx.cookies.set("spotifyToken", response.access_token, { maxAge: 0, path: '/', httpOnly: true, expires: new Date(dateToken) })
     ctx.cookies.set("spotifyRefreshToken", response.refresh_token, { maxAge: 0, path: '/', httpOnly: true, expires: new Date(dateRefreshToken) })
 
-    ctx.cookies.set("isAuthenticated", "true", {maxAge: 0, path: '/', expires: new Date(dateToken)})
-    ctx.cookies.set("hasRefreshToken", "true", {maxAge: 0, path: '/', expires: new Date(dateRefreshToken)})
+    ctx.cookies.set("isAuthenticated", "true", {maxAge: 0, path: '/', httpOnly: false, expires: new Date(dateToken)})
+    ctx.cookies.set("hasRefreshToken", "true", {maxAge: 0, path: '/', httpOnly: false, expires: new Date(dateRefreshToken)})
 
     return response ? { didSucceed: true } : { didSucceed: false }
   } catch (e) {
