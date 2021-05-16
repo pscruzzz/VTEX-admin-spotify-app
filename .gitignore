@@ -29,6 +29,7 @@ $RECYCLE.BIN/
 node_modules/
 node/node_modules/
 node/spotifyConfig.ts
+react/spotifyConfig.ts
 react/node_modules/
 docs/_book/
 .tmp

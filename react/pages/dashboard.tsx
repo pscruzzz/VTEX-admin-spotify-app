@@ -1,11 +1,21 @@
 import React from "react"
+import { Layout, PageHeader, PageBlock, Card, Button } from 'vtex.styleguide'
 
 const Dashboard: React.FC = () =>{
   return(
-    <>
-      <h1>Hello World</h1>
-      <h1>Hello Spotify</h1>
-    </>
+    <Layout
+      pageHeader={
+        <PageHeader
+          title="Spotify"
+        />
+      }
+    >
+      <PageBlock variation="full" >
+        <div className="flex flex-column items-center justify-center">
+          <h1>Welcome to Spotify</h1>
+        </div>
+      </PageBlock>
+    </Layout>
   )
 }
 

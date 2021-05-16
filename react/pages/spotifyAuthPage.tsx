@@ -4,12 +4,13 @@ import { FormattedMessage } from 'react-intl'
 import { useLazyQuery } from 'react-apollo'
 import getSpotifyToken from '../graphql/getSpotifyToken.graphql'
 import { useAuth } from '../hooks/authProvider'
+import {config} from '../spotifyConfig'
 
 const SpotifyAuthPage: React.FC = () => {
-  const { handleNotifyAuthChange } = useAuth()
+  const { authState, handleAuthCookieCheck } = useAuth()
 
   var win: any = null
-  let urlSpotify = "https://accounts.spotify.com/authorize?response_type=code&client_id=d59764def6274222b825ea9687aa0afc&scope=user-read-private%2520user-read-email&redirect_uri=https%3A%2F%2Fspot--pedrocruz.myvtex.com%2Fadmin%2Fspotify"
+  let urlSpotify = config.SPOTIFY_HOST+config.SPOTIFY_PATH+config.SPOTIFY_RESPONSE_TYPE+config.SPOTIFY_CLIENTID+config.SPOTIFY_SCOPE+config.SPOTIFY_REDIRECT_URI
 
   const [getToken] = useLazyQuery(getSpotifyToken);
 
@@ -45,7 +46,7 @@ const SpotifyAuthPage: React.FC = () => {
           }
         })
         win.close()
-        handleNotifyAuthChange()
+        handleAuthCookieCheck()
         break
     }
     return
