@@ -32,7 +32,6 @@ const App: FC = () => {
     } else {
       setAuthState(AuthStates.notAuth)
     }
-
   },[])
 
   return (
