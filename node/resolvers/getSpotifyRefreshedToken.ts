@@ -15,6 +15,7 @@ export async function getSpotifyRefreshedToken(_: any, args: IGetRefreshedToken,
   try {
     const refresh_token = ctx.cookies.get("spotifyRefreshToken")
     const response: IGetRefreshedTokenResponse = await ctx.clients.spotify.getRefreshedToken(refresh_token ?? "")
+
     const nowToken = new Date()
     const timeToken = nowToken.getTime()
     const expireToken = timeToken + 60 * 60000
