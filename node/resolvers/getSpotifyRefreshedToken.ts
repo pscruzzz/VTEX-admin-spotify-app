@@ -26,7 +26,9 @@ export async function getSpotifyRefreshedToken(_: any, args: IGetRefreshedToken,
 
     ctx.cookies.set("spotifyToken", response.access_token, { maxAge: 0, path: '/', httpOnly: true, expires: new Date(dateToken) })
     ctx.cookies.set("spotifyRefreshToken", response.refresh_token, { maxAge: 0, path: '/', httpOnly: true, expires: new Date(dateRefreshToken) })
+
     ctx.cookies.set("isAuthenticated", "true", {maxAge: 0, path: '/', expires: new Date(dateToken)})
+    ctx.cookies.set("hasRefreshToken", "true", {maxAge: 0, path: '/', expires: new Date(dateRefreshToken)})
 
     return response ? { didSucceed: true } : { didSucceed: false }
   } catch (e) {
