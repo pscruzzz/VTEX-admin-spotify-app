@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react'
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react'
 import { useLazyQuery } from 'react-apollo'
 
 import getSpotifyRefreshedToken from '../graphql/getSpotifyRefreshedToken.graphql'
@@ -20,8 +20,10 @@ const AuthProvider: React.FC = ({ children }) => {
   const [authState, setAuthState] = useState<AuthStates>(AuthStates.notAuth)
 
   const [getRefreshedToken, {data, loading}] = useLazyQuery(getSpotifyRefreshedToken)
-  console.log(data, "data refresh")
-  console.log(loading, "loading")
+
+  useEffect(()=>{
+    handleAuthCookieCheck()
+  },[data, loading])
 
   const handleAuthCookieCheck = useCallback((retries: number = 0) => {
     setTimeout(() => {
@@ -34,11 +36,7 @@ const AuthProvider: React.FC = ({ children }) => {
       } else if (cookieHasRefreshToken) {
         retries === 0 && getRefreshedToken({ variables: { cookieHasRefreshToken: cookieHasRefreshToken} })
         setAuthState(AuthStates.refreshTokenExists)
-        if(loading === true){
-          handleAuthCookieCheck(retries + 1)
-        } else{
-          cookieIsAuthenticated ? setAuthState(AuthStates.authTokenExists) : setAuthState(AuthStates.notAuth)
-        }
+        document.cookie = 'hasRefreshToken=; Max-Age=-99999999;'
         return
       } else {
         setAuthState(AuthStates.notAuth)
