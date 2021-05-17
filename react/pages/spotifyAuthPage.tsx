@@ -41,7 +41,7 @@ const SpotifyAuthPage: React.FC = () => {
         const codeParam = !!urlParams ? urlParams.get('code') : null
         getToken({
           variables: {
-            redirect_uri: "https://spot--pedrocruz.myvtex.com/admin/spotify",
+            redirect_uri: "https://pedrocruz.myvtex.com/admin/spotify",
             code: codeParam
           }
         })
