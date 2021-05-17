@@ -12,7 +12,7 @@ interface IGetTokenResponse {
   refresh_token: string
 }
 
-export default class Spotify extends ExternalClient {
+export class SpotifyAuth extends ExternalClient {
   constructor(context: IOContext, options?: InstanceOptions) {
     super('https://accounts.spotify.com', context, options)
   }
@@ -53,4 +53,25 @@ export default class Spotify extends ExternalClient {
     return response
   }
 
+}
+
+export class SpotifyAPI extends ExternalClient {
+  constructor(context: IOContext, options?: InstanceOptions){
+    super("https://api.spotify.com", context, options)
+  }
+
+  public async getUserTop(type: string, authToken: string | undefined){
+    const headers ={
+      Authorization: `Bearer ${authToken}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    }
+
+    try{
+      const response = await this.http.get(`v1/me/top/${type}`, {headers})
+      return response
+    } catch (e){
+      return e
+    }
+  }
 }

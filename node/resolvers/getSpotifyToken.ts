@@ -18,7 +18,7 @@ export const getSpotifyToken = async(
 ) =>{
 
   try{
-    const response: IGetTokenResponse = await ctx.clients.spotify.getToken(
+    const response: IGetTokenResponse = await ctx.clients.spotifyAuth.getToken(
       args.code,
       args.redirect_uri
     )

@@ -2,7 +2,35 @@ type getSpotifyTokenRes{
   didSucceed: Boolean
 }
 
+type IGetUserTop{
+  items: [Item]
+  total: Int
+}
+
+type Item{
+  name: String
+  genres: [String]
+  external_urls: external_url
+  followers: Ifollowers
+  images: [IImages]
+}
+
+type external_url {
+  spotify: String
+}
+
+type Ifollowers {
+  total: Int
+}
+
+type IImages{
+  height: Int
+  url: String
+  width: Int
+}
+
 type Query {
-  getSpotifyToken(redirect_uri: String, code: String): getSpotifyTokenRes
-  getSpotifyRefreshedToken(cookieHasRefreshToken: String): getSpotifyTokenRes
+  getSpotifyToken(redirect_uri: String!, code: String!): getSpotifyTokenRes
+  getSpotifyRefreshedToken(cookieHasRefreshToken: String!): getSpotifyTokenRes
+  getUserTop(type: String!): IGetUserTop
 }

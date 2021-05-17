@@ -14,7 +14,7 @@ export async function getSpotifyRefreshedToken(_: any, args: IGetRefreshedToken,
   if(!Boolean(args.cookieHasRefreshToken)){return { didSucceed: false }}
   try {
     const refresh_token = ctx.cookies.get("spotifyRefreshToken")
-    const response: IGetRefreshedTokenResponse = await ctx.clients.spotify.getRefreshedToken(refresh_token ?? "")
+    const response: IGetRefreshedTokenResponse = await ctx.clients.spotifyAuth.getRefreshedToken(refresh_token ?? "")
 
     const nowToken = new Date()
     const timeToken = nowToken.getTime()
@@ -36,6 +36,5 @@ export async function getSpotifyRefreshedToken(_: any, args: IGetRefreshedToken,
   } catch (e) {
     ctx.response.status = 404
     return { didSucceed: false }
-    //return e
   }
 }

@@ -28,6 +28,13 @@
       }
     },
     {
+      "name": "outbound-access",
+      "attrs": {
+        "hosts": "api.spotify.com",
+        "path": "*"
+      }
+    },
+    {
       "name": "colossus-fire-event"
     },
     {

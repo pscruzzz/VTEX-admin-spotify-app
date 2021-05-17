@@ -1,12 +1,16 @@
 import { IOClients } from '@vtex/api'
 
-import Spotify from './spotify'
+import {SpotifyAPI, SpotifyAuth} from './spotify'
 
 //import { OMS } from '@vtex/clients'
 
 // Extend the default IOClients implementation with our own custom clients.
 export class Clients extends IOClients {
-  public get spotify() {
-    return this.getOrSet('spotify', Spotify)
+  public get spotifyAuth() {
+    return this.getOrSet('spotifyAuth', SpotifyAuth)
+  }
+
+  public get spotifyAPI() {
+    return this.getOrSet('spotifyAPI', SpotifyAPI)
   }
 }
