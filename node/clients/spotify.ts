@@ -60,7 +60,7 @@ export class SpotifyAPI extends ExternalClient {
     super("https://api.spotify.com", context, options)
   }
 
-  public async getUserTop(type: string, authToken: string | undefined){
+  public async getUserTop(type: string, time_range: string, authToken: string | undefined){
     const headers ={
       Authorization: `Bearer ${authToken}`,
       Accept: "application/json",
@@ -68,7 +68,7 @@ export class SpotifyAPI extends ExternalClient {
     }
 
     try{
-      const response = await this.http.get(`v1/me/top/${type}?limit=50`, {headers})
+      const response = await this.http.get(`v1/me/top/${type}?limit=50&time_range=${time_range}`, {headers})
       return response
     } catch (e){
       return e

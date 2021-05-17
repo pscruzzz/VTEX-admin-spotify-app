@@ -1,5 +1,5 @@
-query getUserTopTracks{
-  getUserTopTracks @context(provider: "pedrocruz.admin-vtex"){
+query getUserTopTracks($time_range: String!){
+  getUserTopTracks(time_range: $time_range) @context(provider: "pedrocruz.admin-vtex"){
     items {
       name
       external_urls {

@@ -1,8 +1,9 @@
 import React, { useState } from "react"
-import { Layout, PageHeader, PageBlock, Spinner, Tab, Tabs } from 'vtex.styleguide'
+import { Layout, PageHeader, PageBlock, Spinner, Tab, Tabs, ButtonGroup, Button, Alert } from 'vtex.styleguide'
 import { useQuery } from 'react-apollo'
 import getUserTopArtists from '../graphql/getUserTopArtists.graphql'
 import getUserTopTracks from '../graphql/getUserTopTracks.graphql'
+import {useAuth} from '../hooks/authProvider'
 
 import TableRefactured from '../components/tableRefact'
 
@@ -29,17 +30,26 @@ interface ITracksData {
   }
 }
 
+enum ITimeSetup {
+  short = "short_term",
+  medium = "medium_term",
+  long = "long_term"
+}
+
 const Dashboard: React.FC = () => {
+  const {handleAuthCookieCheck} = useAuth()
   const [currentTab, setCurrentTab] = useState<number>(1)
+  const [currentTimeSetup, setCurrentTimeSetup] = useState<string>(ITimeSetup.medium)
+
   const { data: artistsData, loading: artistsLoading, error: errorFecthingArtists } = useQuery<IArtistsData>(getUserTopArtists, {
     variables: {
-      type: "artists"
+      time_range: currentTimeSetup
     }
   })
 
   const { data: tracksData, loading: tracksLoading, error: errorFecthingTracks } = useQuery<ITracksData>(getUserTopTracks, {
     variables: {
-      type: "tracks"
+      time_range: currentTimeSetup
     }
   })
 
@@ -90,6 +100,9 @@ const Dashboard: React.FC = () => {
     }
   })
 
+  const mockArtistsArray = [{position: 1, name: "loading", genres: "loading", followers: "loading"}]
+  const mockTracksArray = [{position: 1, name: "loading", artist: "loading", album: "loading"}]
+
   const tracksArray = tracksData?.getUserTopTracks.items.map((eachTrack, index) => {
     return {
       position: index + 1,
@@ -98,25 +111,6 @@ const Dashboard: React.FC = () => {
       album: eachTrack.album.name
     }
   })
-
-  if (artistsLoading || tracksLoading) {
-    return (
-      <Layout
-        pageHeader={
-          <PageHeader
-            title="Spotify"
-          />
-        }
-      >
-        <PageBlock variation="full" >
-          <div className="flex flex-column items-center justify-center">
-            <h1>Hold on while we load your stuff</h1>
-            <Spinner />
-          </div>
-        </PageBlock>
-      </Layout>
-    )
-  }
 
   if (errorFecthingArtists || errorFecthingTracks) {
     return (
@@ -130,6 +124,17 @@ const Dashboard: React.FC = () => {
         <PageBlock variation="full" >
           <div className="flex flex-column items-center justify-center">
             <h1>Oopsie doopsie something went wrong</h1>
+          <Alert type="error" action={{ label: 'Resolve Errors',
+            onClick: () => {
+              document.cookie = 'hasRefreshToken' + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+              document.cookie = 'isAuthenticated' + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+              console.log("clicked")
+              handleAuthCookieCheck()
+              return
+            }
+          }}>
+            You might wanna check your console and network
+          </Alert>
           </div>
         </PageBlock>
       </Layout>
@@ -142,22 +147,44 @@ const Dashboard: React.FC = () => {
         <PageHeader
           title="Spotify"
           subtitle="Here it's some of your favorites"
-        />
+        >
+        </PageHeader>
       }
     >
       <PageBlock variation="full" >
         <div className="flex flex-column items-center justify-center">
+          <div className="w-100 flex justify-end">
+        <ButtonGroup
+            buttons={[
+              <Button
+                isActiveOfGroup={currentTimeSetup === ITimeSetup.short}
+                onClick={() => setCurrentTimeSetup(ITimeSetup.short)}>
+                Short term
+              </Button>,
+              <Button
+                isActiveOfGroup={currentTimeSetup === ITimeSetup.medium}
+                onClick={() => setCurrentTimeSetup(ITimeSetup.medium)}>
+                Medium term
+              </Button>,
+              <Button
+                isActiveOfGroup={currentTimeSetup === ITimeSetup.long}
+                onClick={() => setCurrentTimeSetup(ITimeSetup.long)}>
+                Long term
+              </Button>,
+            ]}
+          />
+          </div>
           <Tabs className="Main">
             <Tab
               className="artistsColumn" label="Artists"
               active={currentTab === 1}
               onClick={() => setCurrentTab(1)}>
-              <TableRefactured loading={artistsLoading} itemsList={artistsArray} columns={artistColumns} />
+              <TableRefactured loading={artistsLoading} itemsList={artistsArray || mockArtistsArray} columns={artistColumns} />
             </Tab>
             <Tab className="songsColumn" label="Tracks"
               active={currentTab === 2}
               onClick={() => setCurrentTab(2)}>
-              <TableRefactured loading={tracksLoading} itemsList={tracksArray} columns={trackColumns} />
+              <TableRefactured loading={tracksLoading} itemsList={tracksArray || mockTracksArray} columns={trackColumns} />
             </Tab>
           </Tabs>
         </div>

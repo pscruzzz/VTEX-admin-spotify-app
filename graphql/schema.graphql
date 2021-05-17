@@ -54,6 +54,6 @@ type IArtist{
 type Query {
   getSpotifyToken(redirect_uri: String!, code: String!): getSpotifyTokenRes
   getSpotifyRefreshedToken(cookieHasRefreshToken: String!): getSpotifyTokenRes
-  getUserTopArtists: IGetUserTopArtists
-  getUserTopTracks: IGetUserTopTracks
+  getUserTopArtists(time_range: String!): IGetUserTopArtists
+  getUserTopTracks(time_range: String!): IGetUserTopTracks
 }

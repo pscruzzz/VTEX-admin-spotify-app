@@ -36,7 +36,7 @@ const AuthProvider: React.FC = ({ children }) => {
       } else if (cookieHasRefreshToken) {
         retries === 0 && getRefreshedToken({ variables: { cookieHasRefreshToken: cookieHasRefreshToken} })
         setAuthState(AuthStates.refreshTokenExists)
-        document.cookie = 'hasRefreshToken=; Max-Age=-99999999;'
+        document.cookie = 'hasRefreshToken=' + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
         return
       } else {
         setAuthState(AuthStates.notAuth)
