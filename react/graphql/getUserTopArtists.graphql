@@ -1,0 +1,19 @@
+query getUserTopArtists{
+  getUserTopArtists @context(provider: "pedrocruz.admin-vtex"){
+    items{
+      name
+      genres
+      external_urls{
+        spotify
+      }
+      followers{
+        total
+      }
+      images{
+        height
+        url
+        width
+      }
+    }
+  }
+}

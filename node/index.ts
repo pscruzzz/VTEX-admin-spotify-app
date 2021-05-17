@@ -4,8 +4,8 @@ import { LRUCache, Service } from '@vtex/api'
 import { Clients } from './clients'
 import { getSpotifyToken } from './resolvers/getSpotifyToken'
 import { getSpotifyRefreshedToken } from './resolvers/getSpotifyRefreshedToken'
-import { getUserTop } from './resolvers/getUserTop'
-
+import { getUserTopArtists } from './resolvers/getUserTopArtists'
+import { getUserTopTracks } from './resolvers/getUserTopTracks'
 
 const TIMEOUT_MS = 800
 
@@ -50,7 +50,8 @@ export default new Service({
         Query:{
           getSpotifyToken,
           getSpotifyRefreshedToken,
-          getUserTop
+          getUserTopArtists,
+          getUserTopTracks
         }
       },
   },

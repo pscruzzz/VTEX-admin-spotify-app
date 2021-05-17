@@ -1,7 +1,7 @@
 {
   "name": "admin-spotify",
   "vendor": "pedrocruz",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "title": "Spotify Admin App",
   "description": "",
   "mustUpdateAt": "2022-08-28",
@@ -30,7 +30,7 @@
     {
       "name": "outbound-access",
       "attrs": {
-        "hosts": "api.spotify.com",
+        "host": "api.spotify.com",
         "path": "*"
       }
     },

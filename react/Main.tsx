@@ -6,9 +6,9 @@ import AuthProvider from './hooks/authProvider'
 const Main: FC = () => {
 
   return (
-    <AuthProvider>
-      <App/>
-    </AuthProvider>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
   )
 }
 

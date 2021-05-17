@@ -1,7 +1,0 @@
-query getSpotifyTop($type: String!){
-  getUserTop(type: $type) @context(provider: "pedrocruz.admin-vtex"){
-    items{
-      name
-    }
-  }
-}

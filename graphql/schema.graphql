@@ -2,12 +2,12 @@ type getSpotifyTokenRes{
   didSucceed: Boolean
 }
 
-type IGetUserTop{
-  items: [Item]
+type IGetUserTopArtists{
+  items: [ItemArtists]
   total: Int
 }
 
-type Item{
+type ItemArtists{
   name: String
   genres: [String]
   external_urls: external_url
@@ -29,8 +29,31 @@ type IImages{
   width: Int
 }
 
+type IGetUserTopTracks{
+  items: [ItemTracks]
+  total: Int
+}
+
+type ItemTracks{
+  name: String
+  external_urls: external_url
+  artists: [IArtist]
+  album: IAlbum
+}
+
+type IAlbum{
+  name: String
+  images: [IImages]
+}
+
+type IArtist{
+  name: String
+  external_urls: external_url
+}
+
 type Query {
   getSpotifyToken(redirect_uri: String!, code: String!): getSpotifyTokenRes
   getSpotifyRefreshedToken(cookieHasRefreshToken: String!): getSpotifyTokenRes
-  getUserTop(type: String!): IGetUserTop
+  getUserTopArtists: IGetUserTopArtists
+  getUserTopTracks: IGetUserTopTracks
 }

@@ -68,7 +68,7 @@ export class SpotifyAPI extends ExternalClient {
     }
 
     try{
-      const response = await this.http.get(`v1/me/top/${type}`, {headers})
+      const response = await this.http.get(`v1/me/top/${type}?limit=50`, {headers})
       return response
     } catch (e){
       return e
