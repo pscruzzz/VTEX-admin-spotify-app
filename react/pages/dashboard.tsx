@@ -1,9 +1,11 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Layout, PageHeader, PageBlock, Spinner, Tab, Tabs, ButtonGroup, Button, Alert } from 'vtex.styleguide'
-import { useQuery } from 'react-apollo'
+import { useQuery, useMutation } from 'react-apollo'
 import getUserTopArtists from '../graphql/getUserTopArtists.graphql'
 import getUserTopTracks from '../graphql/getUserTopTracks.graphql'
-import {useAuth} from '../hooks/authProvider'
+import persistUserTable from '../graphql/persistUserTable.graphql'
+
+import { useAuth } from '../hooks/authProvider'
 
 import TableRefactured from '../components/tableRefact'
 
@@ -37,9 +39,21 @@ enum ITimeSetup {
 }
 
 const Dashboard: React.FC = () => {
-  const {handleAuthCookieCheck} = useAuth()
+  const { handleAuthCookieCheck } = useAuth()
   const [currentTab, setCurrentTab] = useState<number>(1)
   const [currentTimeSetup, setCurrentTimeSetup] = useState<string>(ITimeSetup.medium)
+  const [artistsTable, setArtistsTable] = useState<{
+    position: number;
+    artist: string;
+    genre: string;
+    followers: number;
+  }[]>()
+  const [tracksTable, setTracksTable] = useState<{
+    position: number;
+    track: string;
+    artist: string;
+    album: string;
+  }[]>()
 
   const { data: artistsData, loading: artistsLoading, error: errorFecthingArtists } = useQuery<IArtistsData>(getUserTopArtists, {
     variables: {
@@ -59,7 +73,7 @@ const Dashboard: React.FC = () => {
       title: 'Position',
     },
     {
-      id: 'name',
+      id: 'track',
       title: 'Track',
     },
     {
@@ -78,11 +92,11 @@ const Dashboard: React.FC = () => {
       title: 'Position',
     },
     {
-      id: 'name',
+      id: 'artist',
       title: 'Artist',
     },
     {
-      id: 'genres',
+      id: 'genre',
       title: 'Genre',
     },
     {
@@ -94,21 +108,23 @@ const Dashboard: React.FC = () => {
   const artistsArray = artistsData?.getUserTopArtists.items.map((eachArtist, index) => {
     return {
       position: index + 1,
-      name: eachArtist.name,
-      genres: eachArtist.genres[0],
-      followers: eachArtist.followers.total
+      artist: eachArtist.name,
+      genre: eachArtist.genres[0],
+      followers: eachArtist.followers.total,
+      type: "artist"
     }
   })
 
-  const mockArtistsArray = [{position: 1, name: "loading", genres: "loading", followers: "loading"}]
-  const mockTracksArray = [{position: 1, name: "loading", artist: "loading", album: "loading"}]
+  const mockArtistsArray = [{ position: 1, name: "loading", genres: "loading", followers: "loading" }]
+  const mockTracksArray = [{ position: 1, name: "loading", artist: "loading", album: "loading" }]
 
   const tracksArray = tracksData?.getUserTopTracks.items.map((eachTrack, index) => {
     return {
       position: index + 1,
-      name: eachTrack.name,
+      track: eachTrack.name,
       artist: eachTrack.artists[0].name,
-      album: eachTrack.album.name
+      album: eachTrack.album.name,
+      type: "track"
     }
   })
 
@@ -124,22 +140,36 @@ const Dashboard: React.FC = () => {
         <PageBlock variation="full" >
           <div className="flex flex-column items-center justify-center">
             <h1>Oopsie doopsie something went wrong</h1>
-          <Alert type="error" action={{ label: 'Resolve Errors',
-            onClick: () => {
-              document.cookie = 'hasRefreshToken' + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-              document.cookie = 'isAuthenticated' + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-              console.log("clicked")
-              handleAuthCookieCheck()
-              return
-            }
-          }}>
-            You might wanna check your console and network
+            <Alert type="error" action={{
+              label: 'Resolve Errors',
+              onClick: () => {
+                document.cookie = 'hasRefreshToken' + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                document.cookie = 'isAuthenticated' + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                console.log("clicked")
+                handleAuthCookieCheck()
+                return
+              }
+            }}>
+              You might wanna check your console and network
           </Alert>
           </div>
         </PageBlock>
       </Layout>
     )
   }
+
+  useEffect(() => {
+    if (!artistsLoading) {
+      setArtistsTable(artistsArray)
+    }
+
+    if (!tracksLoading) {
+      setTracksTable(tracksArray)
+    }
+  }, [artistsLoading, tracksLoading])
+
+  const [persistTable] = useMutation(persistUserTable)
+  console.log(artistsTable, "artistsTable")
 
   return (
     <Layout
@@ -148,31 +178,42 @@ const Dashboard: React.FC = () => {
           title="Spotify"
           subtitle="Here it's some of your favorites"
         >
+          <span className="mr4">
+            <Button variation="primary" onClick={() => {
+              persistTable(
+                {
+                  variables: {
+                    documentsArr: currentTab === 1 ? artistsTable : tracksTable
+                  }
+                }
+              )
+            }}>Share current table</Button>
+          </span>
         </PageHeader>
       }
     >
       <PageBlock variation="full" >
         <div className="flex flex-column items-center justify-center">
           <div className="w-100 flex justify-end">
-        <ButtonGroup
-            buttons={[
-              <Button
-                isActiveOfGroup={currentTimeSetup === ITimeSetup.short}
-                onClick={() => setCurrentTimeSetup(ITimeSetup.short)}>
-                Short term
+            <ButtonGroup
+              buttons={[
+                <Button
+                  isActiveOfGroup={currentTimeSetup === ITimeSetup.short}
+                  onClick={() => setCurrentTimeSetup(ITimeSetup.short)}>
+                  Short term
               </Button>,
-              <Button
-                isActiveOfGroup={currentTimeSetup === ITimeSetup.medium}
-                onClick={() => setCurrentTimeSetup(ITimeSetup.medium)}>
-                Medium term
+                <Button
+                  isActiveOfGroup={currentTimeSetup === ITimeSetup.medium}
+                  onClick={() => setCurrentTimeSetup(ITimeSetup.medium)}>
+                  Medium term
               </Button>,
-              <Button
-                isActiveOfGroup={currentTimeSetup === ITimeSetup.long}
-                onClick={() => setCurrentTimeSetup(ITimeSetup.long)}>
-                Long term
+                <Button
+                  isActiveOfGroup={currentTimeSetup === ITimeSetup.long}
+                  onClick={() => setCurrentTimeSetup(ITimeSetup.long)}>
+                  Long term
               </Button>,
-            ]}
-          />
+              ]}
+            />
           </div>
           <Tabs className="Main">
             <Tab

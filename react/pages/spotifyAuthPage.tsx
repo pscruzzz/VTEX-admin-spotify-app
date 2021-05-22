@@ -10,7 +10,7 @@ const SpotifyAuthPage: React.FC = () => {
   const { authState, handleAuthCookieCheck } = useAuth()
 
   var win: any = null
-  let urlSpotify = config.SPOTIFY_HOST+config.SPOTIFY_PATH+config.SPOTIFY_RESPONSE_TYPE+config.SPOTIFY_CLIENTID+config.SPOTIFY_SCOPE+config.SPOTIFY_REDIRECT_URI
+  let urlSpotify = config.SPOTIFY_HOST+config.SPOTIFY_PATH+config.SPOTIFY_RESPONSE_TYPE+config.SPOTIFY_CLIENTID+config.SPOTIFY_SCOPE+config.SPOTIFY_ENCODED_REDIRECT_URI
 
   const [getToken] = useLazyQuery(getSpotifyToken);
 
@@ -41,12 +41,12 @@ const SpotifyAuthPage: React.FC = () => {
         const codeParam = !!urlParams ? urlParams.get('code') : null
         getToken({
           variables: {
-            redirect_uri: "https://pedrocruz.myvtex.com/admin/spotify",
+            redirect_uri: config.SPOTIFY_REDIRECT_URI,
             code: codeParam
           }
         })
         win.close()
-        handleAuthCookieCheck()
+        setTimeout(()=>{handleAuthCookieCheck()}, 500)
         break
     }
     return

@@ -1,5 +1,5 @@
 query getUserTopTracks($time_range: String!){
-  getUserTopTracks(time_range: $time_range) @context(provider: "pedrocruz.admin-vtex"){
+  getUserTopTracks(time_range: $time_range) @context(provider: "pedrocruz.admin-spotify"){
     items {
       name
       external_urls {

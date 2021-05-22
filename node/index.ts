@@ -6,6 +6,7 @@ import { getSpotifyToken } from './resolvers/getSpotifyToken'
 import { getSpotifyRefreshedToken } from './resolvers/getSpotifyRefreshedToken'
 import { getUserTopArtists } from './resolvers/getUserTopArtists'
 import { getUserTopTracks } from './resolvers/getUserTopTracks'
+import {persistUserTable} from './resolvers/persistUserTable'
 
 const TIMEOUT_MS = 800
 
@@ -52,6 +53,9 @@ export default new Service({
           getSpotifyRefreshedToken,
           getUserTopArtists,
           getUserTopTracks
+        },
+        Mutation:{
+          persistUserTable
         }
       },
   },

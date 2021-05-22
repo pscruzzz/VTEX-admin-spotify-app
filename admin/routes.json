@@ -2,5 +2,9 @@
   "admin.app.spotify": {
     "component": "Main",
     "path": "/admin/app/spotify"
+  },
+  "admin.app.shared": {
+    "component": "Shared",
+    "path": "/admin/app/shared"
   }
 }

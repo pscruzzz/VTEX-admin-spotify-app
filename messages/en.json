@@ -1,6 +1,11 @@
 {
   "admin-spotify.navigation.group": "Spotify",
-  "admin-spotify.navigation.details": "Dashboard",
-  "admin-spotify.navigation.search.kws": "Spotify, spotify, spot",
-  "admin-spotify.navigation.details.search.kws": "Spotify, spotify, spot"
+
+  "admin-spotify-dashboard.navigation.details": "Dashboard",
+  "admin-spotify-dashboard.navigation.search.kws": "Spotify, spotify, spot",
+  "admin-spotify-dashboard.navigation.details.search.kws": "Spotify, spotify, spot",
+
+  "admin-spotify-shared.navigation.details": "Shared",
+  "admin-spotify-shared.navigation.search.kws": "Spotify, spotify, spot, Shared, shared",
+  "admin-spotify-shared.navigation.details.search.kws": "Spotify, spotify, spot, Shared, shared"
 }

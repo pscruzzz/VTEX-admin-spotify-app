@@ -1,5 +1,5 @@
 query getUserTopArtists($time_range: String!){
-  getUserTopArtists(time_range: $time_range) @context(provider: "pedrocruz.admin-vtex"){
+  getUserTopArtists(time_range: $time_range) @context(provider: "pedrocruz.admin-spotify"){
     items{
       name
       genres

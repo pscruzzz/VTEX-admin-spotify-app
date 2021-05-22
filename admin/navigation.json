@@ -2,12 +2,17 @@
   "section": "storeSetup",
   "titleId": "admin-spotify.navigation.group",
   "subSection": "spotify",
-  "searchKeyWordsHelpers": "admin-spotify.navigation.search.kws",
+  "searchKeyWordsHelpers": "admin-spotify-dashboard.navigation.search.kws",
   "subSectionItems": [
     {
-      "labelId": "admin-spotify.navigation.details",
+      "labelId": "admin-spotify-dashboard.navigation.details",
       "path": "/admin/spotify",
-      "searchKeyWordsHelpers": "admin-spotify.navigation.details.search.kws"
+      "searchKeyWordsHelpers": "admin-spotify-dashboard.navigation.details.search.kws"
+    },
+    {
+      "labelId": "admin-spotify-shared.navigation.details",
+      "path": "/admin/shared",
+      "searchKeyWordsHelpers": "admin-spotify-shared.navigation.details.search.kws"
     }
   ]
 }

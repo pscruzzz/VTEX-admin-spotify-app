@@ -1,0 +1,5 @@
+mutation persistUserTable($documentsArr: [Document]){
+  persistUserTable(documentsArr: $documentsArr) @context(provider: "pedrocruz.admin-spotify"){
+    message
+  }
+}
