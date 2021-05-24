@@ -11,7 +11,7 @@ type ItemArtists{
   name: String
   genres: [String]
   external_urls: external_url
-  followers: Ifollowers
+  followers: IFollowers
   images: [IImages]
 }
 
@@ -19,7 +19,7 @@ type external_url {
   spotify: String
 }
 
-type Ifollowers {
+type IFollowers {
   total: Int
 }
 
@@ -56,12 +56,30 @@ type Query {
   getSpotifyRefreshedToken(cookieHasRefreshToken: String!): getSpotifyTokenRes
   getUserTopArtists(time_range: String!): IGetUserTopArtists
   getUserTopTracks(time_range: String!): IGetUserTopTracks
+  getSharedFavorites(type: String, email: String): [IGetSharedFavoritesRes]
+  getEmails: [GetEmailsRes]
+}
+
+type GetEmailsRes{
+  email: String
+  type: String
+}
+
+type IGetSharedFavoritesRes {
+  album: String
+  artist: String!
+  artistFollowers: Int
+  genre: String
+  position: Int!
+  track: String
+  type: String!
+  email: String!
 }
 
 input Document {
   album: String
   artist: String!
-  followers: Int
+  artistFollowers: Int
   genre: String
   position: Int!
   track: String

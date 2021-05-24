@@ -1,18 +1,20 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { EXPERIMENTAL_Table as Table, EXPERIMENTAL_useTableMeasures as useTableMeasures } from 'vtex.styleguide'
+import {useModal} from '../hooks/modalProvider'
 
 interface IProps {
+  needsModal?: boolean
+  rowsOptions?: number[],
   loading: boolean,
   itemsList: any,
   columns: {
     id: string,
     title: string
-  }[]
+  }[],
 }
 
-const rowsOptions = [10, 15, 20]
-
-const TableRefactured: React.FC<IProps> = ({ loading, itemsList, columns }) => {
+const TableRefactured: React.FC<IProps> = ({ needsModal=false, loading, itemsList, columns, rowsOptions = [10, 15, 20] }) => {
+  const {onOpen, onUserCall}= useModal()
 
   const [currentPage, setCurrentPage] = useState(1)
   const [perPage, setPerPage] = useState(rowsOptions[0])
@@ -80,7 +82,7 @@ const TableRefactured: React.FC<IProps> = ({ loading, itemsList, columns }) => {
   }
 
   return (
-    <div className="mb5 mt5">
+    <div className="mb5 mt5 w-100">
       <Table
         key={(new Date()).getTime()}
         loading={loading}
@@ -88,9 +90,13 @@ const TableRefactured: React.FC<IProps> = ({ loading, itemsList, columns }) => {
         columns={columns}
         items={slicedOrdersList}
         onRowClick={({ rowData }: any) => {
-          alert(
+          /* alert(
             `you just clicked SKU ID ${rowData.skuId} from seller ${rowData.sellerIds} and delivered at postal code ${rowData.postalCode} by ${rowData.selectedSla}`
-          )
+          ) */
+          if(needsModal){
+            onUserCall(rowData.email, rowData.type)
+            onOpen()
+          }
         }}
       >
         <Table.Pagination {...pagination} />

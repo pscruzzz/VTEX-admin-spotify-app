@@ -50,6 +50,7 @@ declare module 'vtex.styleguide' {
   export const IconPlusLines
 
   export const EXPERIMENTAL_useTableMeasures
+ /*  export const EXPERIMENTAL_Modal */
   export const EXPERIMENTAL_Table
   export const EXPERIMENTAL_Select
 }

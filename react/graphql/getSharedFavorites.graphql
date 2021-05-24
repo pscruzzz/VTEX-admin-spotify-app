@@ -1,0 +1,12 @@
+query getSharedFavorites($type: String, $email: String){
+  getSharedFavorites(type: $type, email: $email){
+    album
+    artist
+    artistFollowers
+    genre
+    position
+    track
+    type
+    email
+  }
+}

@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@vtex/clients": "^2.8.0",
+    "@vtex/clients": "^2.13.0",
     "co-body": "^6.0.0",
     "dotenv": "^9.0.2",
     "graphql": "^15.5.0",

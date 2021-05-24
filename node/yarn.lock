@@ -1538,10 +1538,10 @@
     uuid "^3.3.3"
     xss "^1.0.6"
 
-"@vtex/clients@^2.8.0":
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/@vtex/clients/-/clients-2.8.0.tgz#d33bea94d69703eff6d2926f484647c96dab0301"
-  integrity sha512-408aTXztkIu24hS0w/DUKybhvW35F4NWe8gqGWOXwoVi1wxeE4CCdXEwmeVj9cleOOhwy2q/E0qslh7OHyKC3A==
+"@vtex/clients@^2.13.0":
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/@vtex/clients/-/clients-2.13.0.tgz#67ad49846f7818fb019d3827b1e918deace79592"
+  integrity sha512-3e3DnZ5cjGqM+By0XL9F2BMXcPPMdmv4ayMGRkLRc92YVq0/B60FnqkdiVlExsa55XQiHVs2XeyroLAatSASYw==
   dependencies:
     "@gocommerce/utils" "^0.7.3"
 

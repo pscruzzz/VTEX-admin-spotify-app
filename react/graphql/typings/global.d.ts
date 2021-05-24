@@ -1,7 +1,7 @@
 interface Document {
   album?: string
   artist: string
-  followers?: number
+  artistFollowers?: number
   genre?: string
   position: number
   track?: string

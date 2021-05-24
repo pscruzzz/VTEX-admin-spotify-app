@@ -7,7 +7,7 @@ import persistUserTable from '../graphql/persistUserTable.graphql'
 
 import { useAuth } from '../hooks/authProvider'
 
-import TableRefactured from '../components/tableRefact'
+import TableRefactured from '../components/TableRefact'
 
 interface IArtistsData {
   getUserTopArtists: {
@@ -46,7 +46,7 @@ const Dashboard: React.FC = () => {
     position: number;
     artist: string;
     genre: string;
-    followers: number;
+    artistFollowers: number;
   }[]>()
   const [tracksTable, setTracksTable] = useState<{
     position: number;
@@ -100,7 +100,7 @@ const Dashboard: React.FC = () => {
       title: 'Genre',
     },
     {
-      id: 'followers',
+      id: 'artistFollowers',
       title: 'Followers',
     }
   ]
@@ -110,12 +110,12 @@ const Dashboard: React.FC = () => {
       position: index + 1,
       artist: eachArtist.name,
       genre: eachArtist.genres[0],
-      followers: eachArtist.followers.total,
+      artistFollowers: eachArtist.followers.total,
       type: "artist"
     }
   })
 
-  const mockArtistsArray = [{ position: 1, name: "loading", genres: "loading", followers: "loading" }]
+  const mockArtistsArray = [{ position: 1, name: "loading", genres: "loading", artistFollowers: "loading" }]
   const mockTracksArray = [{ position: 1, name: "loading", artist: "loading", album: "loading" }]
 
   const tracksArray = tracksData?.getUserTopTracks.items.map((eachTrack, index) => {
@@ -169,7 +169,6 @@ const Dashboard: React.FC = () => {
   }, [artistsLoading, tracksLoading])
 
   const [persistTable] = useMutation(persistUserTable)
-  console.log(artistsTable, "artistsTable")
 
   return (
     <Layout
