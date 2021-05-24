@@ -13,9 +13,6 @@ const ModalRefact: React.FC = () =>{
 
   useEffect(()=>{
     userState.type === "artist" ? setCurrentTab(1) : setCurrentTab(2)
-  },[])
-
-  useEffect(()=>{
     getShared({
       variables:{
       type: userState.type,
