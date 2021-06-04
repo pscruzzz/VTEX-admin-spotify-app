@@ -10,7 +10,7 @@ import './styles.global.css'
 const App: FC = () => {
 
   const { authState, handleAuthCookieCheck } = useAuth()
-  console.log(authState, "authState")
+  console.log(authState, "thisShouldBeAnotherTerm")
 
   useEffect(()=>{
     handleAuthCookieCheck()
